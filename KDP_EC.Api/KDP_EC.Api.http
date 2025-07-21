@@ -1,0 +1,6 @@
+@KDP_EC.Api_HostAddress = http://localhost:5036
+
+GET {{KDP_EC.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

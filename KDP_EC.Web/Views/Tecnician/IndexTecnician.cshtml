@@ -1,0 +1,48 @@
+﻿@using KDP_EC.Core.ModelView
+@model List<ExportTecnViewModel>
+
+
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+
+<div class="container-fluid main-content">
+
+    <div class="custom-background">
+        <div class="card-body">
+            <div class="card-header text-white text-center"
+                 style="background-color: #218c5d; border-top-left-radius: .5rem; border-top-right-radius: .5rem;">
+                <h5 class="mb-0">Tecnicos</h5>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered mt-3">
+                    <thead>
+                        <tr>
+                            
+                            <th scope="col">Identificacion</th>
+                            <th scope="col">Nombre Completo</th>
+                            <th scope="col">Fincas Asignadas</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                
+                                <td>@item.Identification</td>
+                                <td>@item.NombreCompleto</td>
+                                <td>@item.FincasAsignadas</td>
+                                
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>

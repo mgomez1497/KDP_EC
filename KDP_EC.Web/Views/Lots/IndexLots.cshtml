@@ -1,0 +1,221 @@
+﻿@using KDP_EC.Core.ModelView
+@using KDP_EC.Core.Models
+@model List<Lots>
+
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<div class="container mt-5">
+    
+    <div class="custom-background mb-4" style="padding: 20px; border-radius: .5rem;">
+        <div class="card-header text-white text-center"
+        style="background-color: #218c5d; border-top-left-radius: .5rem; border-top-right-radius: .5rem;">
+            <h5 class="mb-0">Selecciona una finca</h5>
+        </div>
+        <input type="hidden" id="userIdentification" value="@ViewBag.Identification" />
+
+        <select class="form-select mb-4" id="fincaSelect" >
+            <option value="">Seleccione una finca</option>
+            @if (ViewBag.Farms != null)
+            {
+                var farms = ViewBag.Farms as List<FarmInfoViewModel>;
+                foreach (var finca in farms)
+                {
+                    <option value="@finca.FarmId">@finca.Code - @finca.NombreFinca</option>
+                }
+            }
+        </select>
+    
+
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <div class="bg-success text-white text-center py-2 rounded-top">
+                    <label for="tipoLote" class="form-label m-0">Tipo de lote</label>
+                </div>
+                <select class="form-select" id="tipoLote" disabled>
+                    <option value="">Todos</option>
+                    @if (ViewBag.lotsTypes != null)
+                    {
+                        var lotsTypes = ViewBag.lotsTypes as List<Lots_Type>;
+                        foreach (var tipo in lotsTypes)
+                        {
+                            <option value="@tipo.Id">@tipo.Name</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="col-md-4">
+                <div class="bg-success text-white text-center py-2 rounded-top">
+                    <label for="variedadLote" class="form-label m-0">Variedad</label>
+                </div>
+                <select class="form-select" id="variedadLote" disabled>
+                    <option value="">Todas</option>
+                    @if (ViewBag.lotsVarietys != null)
+                    {
+                        var lotsVarietys = ViewBag.lotsVarietys as List<Lots_Varietys>;
+                        foreach (var variedad in lotsVarietys)
+                        {
+                            <option value="@variedad.Id">@variedad.Name</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="col-md-4">
+                <div class="bg-success text-white text-center py-2 rounded-top">
+                    <label for="tipoRenovacion" class="form-label m-0">Tipo de renovación</label>
+                </div>
+                <select class="form-select" id="tipoRenovacion" disabled>
+                    <option value="">Todos</option>
+
+                    @if (ViewBag.renewalTypes != null)
+                    {
+                        var renewalTypes = ViewBag.renewalTypes as List<Renewal_Types>;
+                        foreach (var renovacion in renewalTypes)
+                        {
+                            <option value="@renovacion.Id">@renovacion.Name</option>
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenedor para el spinner -->
+    <div id="spinner" style="display:none; text-align: center; margin: 20px;">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Cargando...</span>
+        </div>
+        <div>Cargando lotes...</div>
+    </div>
+
+    <!-- Contenedor para la tabla de lotes -->
+    <div class="custom-background mb-4" style="padding: 20px; border-radius: .5rem;">
+        <div id="tablaLotesContainer" style="display:none;">
+            <div class="card-header text-white text-center"
+                 style="background-color: #218c5d; border-top-left-radius: .5rem; border-top-right-radius: .5rem;">
+                <h5 class="mb-0">Lotes de la finca seleccionada</h5>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered text-center" id="tablaLotes">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Nombre lote</th>
+                            <th>Hectareas</th>
+                            <th>Distancia entre Arboles</th>
+                            <th>Numero de arboles</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+  @*   <div class="custom-background mb-4" style="padding: 20px; border-radius: .5rem;">
+        <div class="card-header text-white text-center"
+             style="background-color: #218c5d; border-top-left-radius: .5rem; border-top-right-radius: .5rem;">
+            <h5 class="mb-0">Indicadores</h5>
+        </div>
+        <canvas id="lotChart" width="150" height="150"></canvas>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            const ctx = document.getElementById('lotChart').getContext('2d');
+            const lotChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['En Levante', 'Productivo'],
+                    datasets: [{
+                       data: [@(Convert.ToInt32(ViewBag.EnLevante)), @(Convert.ToInt32(ViewBag.Productivo))],
+                        backgroundColor: ['#f6c23e', '#1cc88a']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Indicadores de Lotes'
+                        }
+                    }
+                }
+            });
+        </script>
+       
+    </div>
+</div> *@
+<script>
+       $(document).ready(function () {
+        function cargarLotes() {
+            const fincaId = $('#fincaSelect').val();
+            const tipoLote = $('#tipoLote').val();
+            const variedadLote = $('#variedadLote').val();
+            const tipoRenovacion = $('#tipoRenovacion').val();
+            let tbody = $("#tablaLotes tbody");
+
+            if (fincaId) {
+                $("#spinner").show();
+                $("#tablaLotesContainer").hide();
+                tbody.empty();
+
+                $.get("/KDP_EC/GetLotsByFarmId", {
+                    fincaId: fincaId,
+                    tipoLote: tipoLote,
+                    variedadLote: variedadLote,
+                    tipoRenovacion: tipoRenovacion
+                }, function (lot) {
+                    $("#spinner").hide();
+                    $('#tablaLotesContainer').show();
+
+                    if (Array.isArray(lot) && lot.length > 0) {
+                        lot.forEach(function (lots) {
+                            tbody.append(`
+                                <tr>
+                                    <td>${lots.lotName}</td>
+                                    <td>${lots.ha}</td>
+                                    <td>${lots.grooveDistance}</td>
+                                    <td>${lots.treesNumber}</td>
+                                </tr>
+                            `);
+                        });
+                    } else {
+                        tbody.append('<tr><td colspan="4" class="text-center">No se encontraron lotes para esta finca.</td></tr>');
+                    }
+                });
+            } else {
+                $('#tablaLotesContainer').hide();
+                tbody.empty();
+                $("#spinner").hide();
+            }
+        }
+
+        
+        $('#fincaSelect').change(function () {
+            const fincaSeleccionada = $(this).val();
+
+            if (fincaSeleccionada) {
+                $('#tipoLote').prop('disabled', false);
+                $('#variedadLote').prop('disabled', false);
+                $('#tipoRenovacion').prop('disabled', false);
+            } else {
+                $('#tipoLote').prop('disabled', true).val('');
+                $('#variedadLote').prop('disabled', true).val('');
+                $('#tipoRenovacion').prop('disabled', true).val('');
+            }
+
+            cargarLotes();
+        });
+
+        // Eventos de cambio en los filtros
+        $('#tipoLote, #variedadLote, #tipoRenovacion').change(cargarLotes);
+    
+
+    });
+</script>

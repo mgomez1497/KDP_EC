@@ -1,0 +1,43 @@
+﻿@using KDP_EC.Core.Models
+@model KDP_EC.Core.Models.URC
+
+
+@{
+    ViewData["Title"] = "Crear URC";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card shadow-lg ">
+                <div class="card-header bg-success text-white text-center">
+                    <h3 class="mb-0">Registro de Persona</h3>
+                </div>
+                <div class="card-body p-4">
+                <form asp-action="CreateURC" method="post">
+
+                        <input asp-for="Id_User" type="hidden" />
+                 
+                    <div class="mb-3">
+                        <label asp-for="Id_Company" class="form-label">Compañia</label>
+                        <select asp-for="Id_Company" class="form-select" asp-items="ViewBag.Companies" required>
+                            <option value="">Seleccione la compañia a la que pertenece </option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Id_Rol" class="form-label">Rol</label>
+                        <select asp-for="Id_Rol" class="form-select" asp-items="ViewBag.Rols" required>
+                            <option value="">Seleccione un Rol</option>
+                        </select>
+                    </div>
+
+                        <div class="text-center mt-3 mb-4">
+                        <button type="submit" class="btn btn-success rounded-pill">Terminar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+ </div>
+</div>

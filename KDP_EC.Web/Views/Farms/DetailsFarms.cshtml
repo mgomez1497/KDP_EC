@@ -1,0 +1,41 @@
+﻿@using KDP_EC.Core.ModelView
+@model List<FarmInfoViewModel>
+
+<div class="container-fluid main-content">
+
+    <div class="custom-background mb-3">
+        <h5 class="card-title mb-3">Detalle Finca</h5>
+
+        <div class="table-responsive">
+            <table class="table table-bordered text-center">
+                <thead class="table-light">
+                    <tr>
+                        <th>CÓDIGO</th>
+                        <th>Vereda</th>
+                        <th>Nombre finca</th>
+                        <th>ASNM</th>
+                        <th>Ha totales</th>
+                        <th>Ha en café</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var farm in Model)
+                    {
+                        <tr>
+                            <td>@farm.Code</td>
+                            <td>@farm.Vereda</td>
+                            <td>@farm.NombreFinca</td>
+                            <td>@farm.HASL</td>
+                            <td>@farm.Ha_Totales</td>
+                            <td>@farm.Ha_Cafe</td>
+                            <td>
+                                <a href="@Url.Action("DetailsFarms", "KDP_EC", new { id = farm.Code })" class="btn btn-sm btn-outline-primary">Detalle</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

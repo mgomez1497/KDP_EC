@@ -1,0 +1,75 @@
+﻿@using KDP_EC.Core.Models
+@model List<Person>
+
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card shadow-lg">
+                <div class="card-header text-white text-center"
+                     style="background-color: #218c5d; border-top-left-radius: .5rem; border-top-right-radius: .5rem;">
+                    <h5 class="mb-0">Registro de Persona</h5>
+                </div>
+
+                <div class="card-body">
+
+                    <form method="get" asp-action="IndexPerson" class="mb-3 d-flex justify-content-end">
+                        <div class="input-group input-group-sm" style="max-width: 300px;">
+                            <input type="text" name="search" class="form-control" placeholder="Buscar por ID..."
+                                   value="@ViewBag.Search" />
+                            <button type="submit" class="btn btn-outline-primary">
+                                <i class="bi bi-search"></i>
+                            </button>
+                        </div>
+                    </form>
+
+                    @if (!Model.Any())
+                    {
+                        <div class="alert alert-warning text-center">No se encontraron resultados.</div>
+                    }
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered text-center">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Tipo de Identificación</th>
+                                    <th>Número Identificación</th>
+                                    <th>Nombre Completo</th>
+                                    <th>Género</th>
+                                    <th>Número de Teléfono</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var person in Model)
+                                {
+                                    <tr>
+                                        <td>@person.IdentificationType</td>
+                                        <td>@person.Identification</td>
+                                        <td>@($"{person.Name} {person.LastName}")</td>
+                                        <td>@person.Gender</td>
+                                        <td>@person.Phone</td>
+                                        <td>
+                                            <a href="@Url.Action("Edit", "Person", new { id = person.Identification })"
+                                               class="btn btn-sm btn-outline-primary me-2" title="Editar">
+                                                <i class="bi bi-pencil-square"></i>
+                                            </a>
+                                            <a href="@Url.Action("Delete", "Person", new { id = person.Identification })"
+                                               class="btn btn-sm btn-outline-danger" title="Eliminar">
+                                                <i class="bi bi-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
