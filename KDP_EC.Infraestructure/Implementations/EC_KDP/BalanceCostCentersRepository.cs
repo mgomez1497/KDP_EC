@@ -38,7 +38,9 @@ namespace KDP_EC.Infraestructure.Implementations.EC_KDP
                     CostCenterId = Conv.AGuid(row["CostCenterId"]),
                     CostCenterName = row["CostCenterName"].ToString(),
                     FarmAverage = Conv.ADec(row["FarmAverage"]),
-                    ExportAverage = Conv.ADec(row["ExportAverage"])
+                    ExportAverage = Conv.ADec(row["ExportAverage"]),
+                    FarmId = Conv.AGuid(row["FarmId"]),
+                    Year = Conv.AEntero(row["Year"])
 
                 };
                 balanceCostCenters.Add(balanceCostCenter);

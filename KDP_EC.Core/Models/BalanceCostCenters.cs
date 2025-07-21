@@ -12,5 +12,7 @@ namespace KDP_EC.Core.Models
         public string CostCenterName { get; set; }
         public decimal FarmAverage { get; set; }
         public decimal ExportAverage { get; set; }
+        public Guid FarmId { get; set; }
+        public int Year { get; set; }
     }
 }
