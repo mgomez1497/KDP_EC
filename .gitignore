@@ -41,6 +41,10 @@ bld/
 # Visual Studio 2017 auto generated files
 Generated\ Files/
 
+# Archivos de configuracion locales que contienen datos sensibles
+appsettings.Development.json
+secrets.json
+
 # MSTest test Results
 [Tt]est[Rr]esult*/
 [Bb]uild[Ll]og.*
